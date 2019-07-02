@@ -140,7 +140,7 @@ Request:
 GET /some-resource HTTP/1.1
 Accept: application/rdf+xml
 Accept-Crs: <http://www.opengis.net/def/crs/EPSG/0/4326>,
-               <http://http://www.opengis.net/def/crs/EPSG/0/4283>
+               <http://www.opengis.net/def/crs/EPSG/0/4283>
 
 Response:
 HTTP/1.1 200 OK
@@ -160,13 +160,13 @@ A client PUTs a GeoJSON document located using EPSG Code 4283. The server answer
 
 Request:
 PUT /some-resource HTTP/1.1
-Content-Type: application/vnd.geo+json
-Content-Crs: <http://http://www.opengis.net/def/crs/EPSG/0/4283>
+Content-Type: application/geo+json
+Content-Crs: <http://www.opengis.net/def/crs/EPSG/0/4283>
 
 Response:
 HTTP/1.1 406 Not acceptable
-Content-Type: application/vnd.geo+json
-Accept-Crs: <http://http://www.opengis.net/def/crs/EPSG/0/4326>
+Content-Type: application/geo+json
+Accept-Crs: <http://www.opengis.net/def/crs/EPSG/0/4326>
 
 ```
 Figure 9
@@ -178,17 +178,17 @@ A client requests an XML document where the elements in namespace urn:example:na
 Request:
 GET /some-resource HTTP/1.1
 Accept-Crs:    <urn:example:namespaces:ns1
-					http://http://www.opengis.net/def/crs/EPSG/0/4326
+					http://www.opengis.net/def/crs/EPSG/0/4326
 								urn:example:namespaces:ns2
-											http://http://www.opengis.net/def/crs/EPSG/0/4283>
+											http://www.opengis.net/def/crs/EPSG/0/4283>
 
 Response:
 HTTP/1.1 200 OK
 Content-Type: application/xml
 Content-Crs: <urn:example:namespaces:ns1
-		http://http://www.opengis.net/def/crs/EPSG/0/4326
+		http://www.opengis.net/def/crs/EPSG/0/4326
 			urn:example:namespaces:ns2
-				http://http://www.opengis.net/def/crs/EPSG/0/4283>
+				http://www.opengis.net/def/crs/EPSG/0/4283>
 
 ```
 Figure 10
