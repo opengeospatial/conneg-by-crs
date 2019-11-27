@@ -31,7 +31,7 @@ This document is subject to BCP 78 and the IETF Trust's Legal Provisions Relatin
 
 ## 1. Introduction
 
-This document defines two new HTTP headers that enable User Agents (UAs) and hosts to indicate and negotiate the coordinate reference system (CRS) used to locate a specific resource. On the Web, resources are identified with HTTP(S) URIs. In many cases when the resource includes spatial information, it can be desired to have multiple coordinate reference systems of a resource to accommodate different UAs or use cases. Indeed, this requirement is covered by the W3C Spatial Data on the Web (SDW) best practices, specifically [best practice 7](https://www.w3.org/TR/sdw-bp/#bp-crs-choice), specifically the statement :
+This document defines two new HTTP headers that enable User Agents (UAs) and hosts to indicate and negotiate the coordinate reference system (CRS) used to locate a specific resource. On the Web, resources are identified with HTTP(S) URIs. In many cases when the resource includes spatial information, it can be desired to have multiple coordinate reference systems of a resource to accommodate different UAs or use cases. Indeed, this requirement is covered by the W3C/OGC Spatial Data on the Web Best Practices, specifically [best practice 7](https://www.w3.org/TR/sdw-bp/#bp-crs-choice), specifically the statement:
 
 _"When publishing spatial data, it is best to help users avoid the need for them to transform spatial data between coordinate reference systems themselves by providing data in a form, or forms, which they can use directly. "_
 
@@ -46,7 +46,7 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 
 ### 2.1. A Note on Terminology
 
-In the context of this proposal, a coordinate reference system is a coordinate system that is related to an object by a datum; for geodetic and vertical datums, the object is the Earth (source:  ISO 19111:2007). Examples of a "coordinate reference system" in this context include, but are not limited to, WGS84 and GDA94. How those coordinate reference systems are used by consuming applications is beyond the scope of this proposal, but typical use cases are interpretation of a spatial feature in order to render it and transform between one coordinate reference system and another.
+In the context of this proposal, a coordinate reference system is a coordinate system that is related to an object by a datum; for geodetic and vertical datums, the object is the Earth (source:  ISO 19111:2019). Examples of a "coordinate reference system" in this context include, but are not limited to, WGS84 and GDA94. How those coordinate reference systems are used by consuming applications is beyond the scope of this proposal, but typical use cases are interpretation of a spatial feature in order to render it and transform between one coordinate reference system and another.
 
 ### 2.2. Other Implementation Options Considered
 
@@ -84,7 +84,7 @@ Accept-CRS header syntax
 
 ```
 
-Accept-CRS = "Accept-CRS" ":" (CRS-value) *("," CRS-value)
+Accept-CRS = "Accept-Crs" ":" (CRS-value [weight]) *("," CRS-value [weight])
 CRS-value = "<" URI-reference ">"
 
 ```
@@ -94,7 +94,7 @@ Figure 5
 
 The "Content-Crs" header field is used to specify a CRS used to locate spatial information in the payload. The CRS is identified by a URI reference, preferably using a URI hosted by the OGC definitions server's federated CRS registry. If a client uses the "Accept-Crs" header to specify one or more CRSs it is willing to accept and a server does not use the "Content-Crs" header to specify which CRS was used to locate spatial information it returns, the Agent MAY process the returned content as it deems fit.
 
-If an Agent uses the "Content-Crs" header field to indicate the CRS used to locate the payload it sends (e. g. in an HTTP POST or PUT request) and the server cannot process content located using that CRS, the server SHOULD send a 406 (Not acceptable) HTTP Code response together with an "Accept-Crs" header (including q-values) to indicate the CRSs it can process. Reasons for not sending a 406 HTTP Code response in such a case might be that the the processing of the message payload leads to an internal server error. If in such a case the server does not implement content negotiation by CRS, the server is more likely to return a 500 HTTP Code (Internal server error) response instead of 406 HTTP Code response.
+If an Agent uses the "Content-Crs" header field to indicate the CRS used to locate the payload it sends (e. g. in an HTTP POST or PUT request) and the server cannot process content located using that CRS, the server SHOULD send a 406 (Not acceptable) HTTP Code response together with an "Accept-Crs" header (including q-values) to indicate the CRSs it can process. Reasons for not sending a 406 HTTP Code response in such a case might be that the processing of the message payload leads to an internal server error. If in such a case the server does not implement content negotiation by CRS, the server is more likely to return a 500 HTTP Code (Internal server error) response instead of 406 HTTP Code response.
 
 Figure 6 describes the syntax (Augmented Backus-Naur Form) of the header fields, using the grammar defined in RFC 5234 and the rules defined in Section 3.2 of RFC 7230. The definition of "URI-reference" is imported from RFC 7230.
 
@@ -102,7 +102,8 @@ CRS header syntax
 
 ```
 
-CRS = "Content-Crs" ":" "<" URI-reference ">"
+CRS = "Content-Crs" ":" "<" CRS-value ">"
+CRS-value = "<" URI-reference ">"
 
 ```
 Figure 6
